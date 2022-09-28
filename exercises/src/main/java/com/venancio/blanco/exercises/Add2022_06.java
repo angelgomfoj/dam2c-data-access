@@ -1,18 +1,12 @@
 package com.venancio.blanco.exercises;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author 6002281
- */
-public class Add2022_04 {
+public class Add2022_06 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce una ruta:");
+		System.out.println("Introduce una ruta");
 		String path = sc.nextLine();
 		sc.close();
 
@@ -29,35 +23,11 @@ public class Add2022_04 {
 				System.out.printf("--------------------------------------------------------------%n");
 			} else {
 				System.out.println("La ruta corresponde a un directorio.");
-				File[] allFiles = objF.listFiles();
-				List<File> files = new ArrayList<>();
-				List<File> directories = new ArrayList<>();
-				for (File file : allFiles) {
-					if (file.isFile()) {
-						files.add(file);
-					} else {
-						directories.add(file);
-					}
-				}
+				recursiveFiles(objF, "\t");
 
-				for (File file : files) {
-
-					System.out.printf("--------------------------------------------------------------%n");
-					System.out.printf("| %-10s | %-8s | %4s | %,d %s |%n", "ARCHIVO", file.getName(),
-							getExtension(file), file.length(), "Bytes");
-					System.out.printf("--------------------------------------------------------------%n");
-				}
-
-				for (File file : directories) {
-					System.out.printf("----------------------------------%n");
-					System.out.printf("| %-10s | %-8s |%n", "DIRECTORIO", file.getName());
-					System.out.printf("----------------------------------%n");
-				}
 			}
+		} else {
 
-		} else
-
-		{
 			System.err.println("La ruta no existe...\nFinalizando programa...");
 		}
 	}
@@ -71,6 +41,20 @@ public class Add2022_04 {
 			return extension;
 		}
 		return "error adquiriendo la extension";
+	}
+
+	public static void recursiveFiles(File path, String separator) {
+		File[] files = path.listFiles();
+
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+				System.out.println(separator + files[i].getName());
+				if (files[i].isDirectory()) {
+					String new_separator = separator + " ";
+					recursiveFiles(files[i], new_separator);
+				}
+			}
+		}
 	}
 
 }

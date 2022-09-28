@@ -7,22 +7,28 @@ public class Add2022_05 {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
-		File rutaDir;
-		String ext;
+		File directoryPath;
+		String extension;
 
 		do {
 			System.out.println("Introduce una ruta a un directorio existente:");
-			rutaDir = new File(sc.nextLine());
-		} while (!rutaDir.exists());
+			directoryPath = new File(sc.nextLine());
+		} while (!directoryPath.exists());
 
 		do {
 			System.out.println("Introduce una extensión de 3 o 4 caracteres alfanumericos:");
-			ext = sc.nextLine();
-		} while (!isValidExt(ext));
+			extension = sc.nextLine();
+		} while (!isValidExt(extension));
 
 		sc.close();
-		
-		rutaDir.
+
+		File[] files = directoryPath.listFiles();
+
+		for (File file : files) {
+			if (file.getName().endsWith("." + extension)) {
+				System.out.println(file.getName() + "\t" + file.length() + " BYTES\t" + file.getAbsolutePath());
+			}
+		}
 
 	}
 

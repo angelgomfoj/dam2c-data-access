@@ -13,13 +13,13 @@ public class Add2022_02 {
 		Random r = new Random();
 		Scanner sc = new Scanner(System.in);
 		int num = r.nextInt(26) + 25;
-		System.out.println("Introduce un nombre");
-		String name = sc.nextLine();
+		System.out.println("Introduce un nombre para los directorios:");
+		String dirName = sc.nextLine();
 		sc.close();
 
 		for (int i = 0; i < num; i++) {
 			String path = "DirContenedor";
-			path += "\\" + name;
+			path += "\\" + dirName;
 			if (i < 10) {
 				path += "0";
 			}
