@@ -13,6 +13,7 @@ public class Add2022_02 {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Introduce la ruta a un archivo NO existente:");
 		File archive = new File(sc.nextLine());
+		sc.close();
 		if (!archive.exists()) {
 			archive.createNewFile();
 			writeFile(archive);
@@ -41,13 +42,13 @@ public class Add2022_02 {
 	}
 
 	private static String getRandomWord() {
-		// (max - min +1 ) +min
+		// ((max - min +1 ) +min)
 		Random r = new Random();
 		Random r2 = new Random();
 		int n = r.nextInt(11) + 10;
 		String word = "";
 		for (int i = 0; i < n; i++) {
-			word += (char) r2.nextInt(26) + 97;
+			word += (char) (r2.nextInt(26) + 97);
 		}
 		return word;
 	}
