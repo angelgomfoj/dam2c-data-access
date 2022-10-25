@@ -1,5 +1,10 @@
 package com.venancio.blanco.exercises2;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,12 +15,13 @@ public class Add2022_EscribeDatosPersonas {
 		boolean flag = true;
 		int decision;
 		List<Person> people = new ArrayList<>();
+		Person p;
 
 		do {
 			System.out.println("[1] Crear persona\n[2] Salir");
-			decision = sc.nextInt();
+			decision = Integer.parseInt(sc.nextLine());
 			if (decision == 1) {
-				Person p = new Person();
+				p = new Person();
 				System.out.println("Nombre1:");
 				p.setName1(sc.nextLine());
 				System.out.println("Nombre2:");
@@ -25,13 +31,36 @@ public class Add2022_EscribeDatosPersonas {
 				System.out.println("Apellido2:");
 				p.setSurname2(sc.nextLine());
 				System.out.println("ID:");
-				p.setId(sc.nextInt());
+				p.setId(Integer.parseInt(sc.nextLine()));
 				System.out.println("Num tlf:");
-				p.setPhoneNumber(sc.nextInt());
-				System.out.println("Fecha de nacimiento:");
-
+				p.setPhoneNumber(Integer.parseInt(sc.nextLine()));
+				System.out.println("Fecha de nacimiento: (Hardcoded actual date)");
+				p.setDateOfBirth(LocalDate.now());
+				System.out.println("Ciudad de nacimiento:");
+				p.setBirthCity(sc.nextLine());
+				people.add(p);
+			} else {
+				flag = false;
 			}
 		} while (flag);
+
+		sc.close();
+
+		if (!people.isEmpty()) {
+			try (FileOutputStream fos = new FileOutputStream("C:\\Users\\6002281\\Desktop\\objetos");
+					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+				for (Person person : people) {
+					oos.writeObject(person);
+				}
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
