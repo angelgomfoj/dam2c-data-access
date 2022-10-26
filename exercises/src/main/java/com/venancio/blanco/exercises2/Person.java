@@ -99,4 +99,11 @@ public class Person implements Serializable {
 		this.birthCity = birthCity;
 	}
 
+	@Override
+	public String toString() {
+		return "Person [name1=" + name1 + ", name2=" + name2 + ", surname1=" + surname1 + ", surname2=" + surname2
+				+ ", id=" + id + ", phoneNumber=" + phoneNumber + ", dateOfBirth=" + dateOfBirth + ", birthCity="
+				+ birthCity + "]";
+	}
+
 }

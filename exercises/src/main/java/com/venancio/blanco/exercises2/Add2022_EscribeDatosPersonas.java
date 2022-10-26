@@ -1,5 +1,6 @@
 package com.venancio.blanco.exercises2;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class Add2022_EscribeDatosPersonas {
 		int decision;
 		List<Person> people = new ArrayList<>();
 		Person p;
+		File archive = new File("C:\\Users\\6002281\\Desktop\\objetos");
 
 		do {
 			System.out.println("[1] Crear persona\n[2] Salir");
@@ -47,18 +49,36 @@ public class Add2022_EscribeDatosPersonas {
 		sc.close();
 
 		if (!people.isEmpty()) {
-			try (FileOutputStream fos = new FileOutputStream("C:\\Users\\6002281\\Desktop\\objetos");
-					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				for (Person person : people) {
-					oos.writeObject(person);
-				}
+			if (archive.isFile() && archive.length() != 0) {
+				try (FileOutputStream fos = new FileOutputStream("C:\\Users\\6002281\\Desktop\\objetos", true);
+						NewWritingWay nww = new NewWritingWay(fos)) {
 
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					for (Person person : people) {
+						nww.writeObject(person);
+					}
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				try (FileOutputStream fos = new FileOutputStream("C:\\Users\\6002281\\Desktop\\objetos", true);
+						ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+					for (Person person : people) {
+						oos.writeObject(person);
+					}
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
