@@ -6,8 +6,19 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
 
+/**
+ * @author Angel Gomez Foj
+ *
+ */
 public class AlmacenaRegistros {
 	public static void main(String[] args) {
+
+		// The following code creates a new file named RegStor.db if it doesn't exist
+		// and writes a random amount (between 200 and 500) of registers in the file.
+
+		// Note: If the file already exists, the program just adds the new registers
+		// right after the old ones.
+
 		Random r = new Random();
 		File archive = new File("RegStor.db");
 		int registersNum = r.nextInt(200, 501);
@@ -17,14 +28,9 @@ public class AlmacenaRegistros {
 				raf.seek(raf.length());
 			}
 			for (int i = 0; i < registersNum; i++) {
-				register = createRegister(archive);
+				register = Register.createRegister(archive);
 				System.out.println(register);
-				raf.writeInt(register.getId());
-				raf.write(register.getName().getBytes());
-				raf.writeInt(register.getDni());
-				raf.writeDouble(register.getSalary());
-				raf.writeBoolean(register.isGender());
-				raf.writeBoolean(register.isWorkRemote());
+				Register.writeRegister(register, raf);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -34,35 +40,4 @@ public class AlmacenaRegistros {
 
 	}
 
-	private static Register createRegister(File archive) {
-		long id = 1;
-		Random r = new Random();
-		try (RandomAccessFile raf = new RandomAccessFile(archive, "r")) {
-			if (raf.length() != 0) {
-				id = (raf.length() / 50) + 1;
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Register register = new Register((int) id, getRandomName(), r.nextInt(10000000, 100000000),
-				r.nextDouble(600, 2001), r.nextBoolean(), r.nextBoolean());
-		return register;
-	}
-
-	private static String getRandomName() {
-		Random r = new Random();
-		int n = r.nextInt(4, 17);
-		String word = "";
-		for (int i = 0; i < n; i++) {
-			word += (char) (r.nextInt(97, 123));
-		}
-		if (word.length() < 32) {
-			while (word.length() < 32) {
-				word += " ";
-			}
-		}
-		return word;
-	}
 }
